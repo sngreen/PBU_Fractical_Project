@@ -53,17 +53,10 @@ class PBUFinalProject:
         self.write_file(data)
  
     def get_menu(self) -> None:
-        '''
-        Axiliary to local get_options() method. 
-        Read in menu definition (yaml) file into local menu_options variable.
-        '''
         with open(MENU_FILE, 'r') as menu_input:
             setattr(self, 'menu_options', yaml.load(menu_input, Loader=yaml.FullLoader))
 
     def get_options(self) -> None:
-        '''
-        Create dynamic menu (arg) variable from local menu_options parameter.
-        '''
         parser = ArgumentParser(
             prog = os.path.basename(__file__),
             usage = '{} [arg] | -h'.format(os.path.basename(__file__)),
@@ -80,18 +73,6 @@ class PBUFinalProject:
         self.args = parser.parse_args()
 
     def verify_infile(self) -> str:
-        '''
-        Verify input file;
-            a. file exists
-            b. file of the format defined by the extension
-            c. file is empty (send empty message to the output)
-
-            Parameters:
-                    None
-
-            Returns:
-                    File extension: str
-        '''
         LOGGER.info('')
 
         if not os.path.isfile(self.args.file_name):
@@ -110,44 +91,17 @@ class PBUFinalProject:
         return FILE_FORMATS.get(file_format)
 
     def get_data(self, file_format: str) -> dict:
-        '''
-        Read in (through axiliary methods) data from a given file.
-        
-            Parameters:
-                    file extension: str
-
-            Returns:
-                    data: dict
-        '''
         LOGGER.info('')
         module = globals()[f'{file_format}_op']
         data = getattr(module, 'get_data')(self.args.file_name)
         return getattr(module, 'show_count')(data)
         
     def get_timestamp(self) -> str:
-        '''
-        Get timestamp
-        
-            Parameters:
-                    None
-
-            Returns:
-                    timestamp: str
-        '''
         LOGGER.info('')
         today = datetime_op.get_today()
         return datetime_op.datetime_str(today)
     
     def add_data(self, data: dict) -> dict:
-        '''
-        Add name of the input file, datestamp to the collected data.
-        
-            Parameters:
-                    data: dict
-
-            Returns:
-                    data: dict
-        '''
         LOGGER.info('')
         additional_info = {
             'file_name': self.args.file_name,
@@ -156,27 +110,12 @@ class PBUFinalProject:
         return {**data, **additional_info}
         
     def format_data(self, data: dict) -> str:
-        '''
-        Format output (through jinja2)
-        
-            Parameters:
-                    data: str
-
-            Returns:
-                    data: str
-        '''
         LOGGER.info('')
         return jinja_format.render_template(
             os.path.join(os.getcwd(),'templates', 'template.j2'),
             data=data )
 
     def write_file(self, data: str) -> None:
-        '''
-        Write formatted output into a file.
-        
-            Parameters:
-                    data: str
-        '''
         fname = REPORT_FILE.replace('users', self.args.file_name.split(os.path.sep)[-1])
         with open(fname, 'w') as outfile:
             outfile.write(data)
