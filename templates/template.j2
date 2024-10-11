@@ -1,0 +1,13 @@
+{{'---'}}
+{{'%-26s'|format('File Name')}}: {{ data['file_name'] }}
+{%- if 'word count' in data %}
+{{'%-26s'|format('Word Count')}}: {{ data['word count'] }}
+{%- elif 'columns' in data %} 
+{{'%-26s'|format('Number of Rows And Columns' + ': ')}}
+{{- data['rows'] }} {{'rows'+', '}} 
+{{- data['columns'] }} {{'columns'}}
+{%- elif 'root count' in data %} 
+{{'%-26s'|format('Root Count')}}: {{ data['root count'] -}}
+{% endif %}
+{{'%-26s'|format('Analysis Performed At')}}: {{ data['timestamp'] }}
+{{'---\n'}}
