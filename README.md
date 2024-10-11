@@ -100,7 +100,7 @@ Generating reports from all available in helper-data directory inputs
 ```bash
 for fname in helper-data/*
 do 
-	echo ">>> $fname"
+	echo "==> $fname <=="
 	python3 main.py --file_name $fname
 done
 ```
