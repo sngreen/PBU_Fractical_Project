@@ -20,12 +20,12 @@ pip config set global.trusted-host "pypi.org files.pythonhosted.org pypi.python.
 pip config set global.retries 15
 pip config set global.timeout 60
 
-# if in isolated environment (Linux)
+# set virtual env (Linux)
 pip install virtualenv
 virtualenv venv
 . venv/bin/activate
 
-# install required libraries from a file.
+# install required libraries
 pip install pip --upgrade
 pip install -r settings/requirements.txt
 ```
@@ -100,7 +100,7 @@ Generating reports from all available in helper-data directory inputs
 ```bash
 for fname in helper-data/*
 do 
-	echo "==> $fname <=="
+	echo "--> $fname <--"
 	python3 main.py --file_name $fname
 done
 ```
