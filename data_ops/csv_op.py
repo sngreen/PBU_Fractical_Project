@@ -10,4 +10,4 @@ def show_count(data: dict) -> dict:
     return {
         'columns': len(rows[0].keys()),
         'rows': len(rows[0].keys())
-        }
+    }
