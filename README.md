@@ -20,12 +20,12 @@ pip config set global.trusted-host "pypi.org files.pythonhosted.org pypi.python.
 pip config set global.retries 15
 pip config set global.timeout 60
 
-# set virtual env (Linux)
+# if in isolated environment (Linux)
 pip install virtualenv
 virtualenv venv
 . venv/bin/activate
 
-# install required libraries
+# install required libraries from a file.
 pip install pip --upgrade
 pip install -r settings/requirements.txt
 ```
@@ -100,7 +100,7 @@ Generating reports from all available in helper-data directory inputs
 ```bash
 for fname in helper-data/*
 do 
-	echo "--> $fname <--"
+	echo "---> $fname <---"
 	python3 main.py --file_name $fname
 done
 ```
@@ -109,6 +109,5 @@ done
 
 #### Note
 
-- The project was written entirely in Linux, and I did not try to run it in either of the IDEs nor Git Bash. I think it should work regardless.
+The project was written entirely in Linux, and I did not try to run it in either of the IDEs or Git Bash. I think it should work regardless.
 
-- I removed docstrings, as I think those are just polluting the code. It's quite obvious what the code is doing anyway.
