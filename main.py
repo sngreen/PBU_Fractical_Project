@@ -22,12 +22,12 @@ from argparse import ArgumentParser, HelpFormatter
 from settings.settings import MENU_FILE, LOG_FILE, REPORT_FILE
 
 logging.basicConfig(
-    format = "%(asctime)s %(levelname)8s %(filename)10s:%(lineno)4s %(funcName)14s() | %(message)s",
-    datefmt = "%Y-%m-%dT%H:%M:%SZ",
+    format = '%(asctime)s %(levelname)8s %(filename)10s:%(lineno)4s %(funcName)14s() | %(message)s',
+    datefmt = '%Y-%m-%dT%H:%M:%SZ',
     level = logging.DEBUG,
     handlers = [
         logging.StreamHandler(sys.stdout),
-        logging.FileHandler(filename = LOG_FILE, mode = "w"),
+        logging.FileHandler(filename = LOG_FILE, mode = 'a'),
     ],
 )
 
