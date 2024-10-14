@@ -35,6 +35,7 @@ LOGGER = logging.getLogger(__name__)
 
 FILE_FORMATS = {
     'application/json': 'json',
+    'application/csv': 'csv',
     'text/csv': 'csv',
     'text/plain': 'txt',
     'inode/x-empty': 'any'
