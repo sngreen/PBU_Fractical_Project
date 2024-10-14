@@ -1,5 +1,9 @@
 from datetime import datetime
 
+'''
+Standard datetime ops, when needed.
+'''
+
 def get_today() -> datetime:
     return datetime.today()
 

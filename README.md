@@ -12,7 +12,7 @@ See description in `helper_data/Python_Bottom_Up_Practical_Project_Specification
 
 #### Prerequisites
 
-Even though the other choices were possible, for output formatting and file-type verification I did resort to using 3rd party libraries instead. See `settings/requirements.txt` file.
+See `settings/requirements.txt` file.
 
 ```bash
 # if the pip config is not set already
@@ -47,7 +47,7 @@ Self-intuitive, I hope, structure.
 ├── datetime_ops
 │   └── datetime_op.py
 ├── format_ops
-│   └── jinja_format.py
+│   └── format_out.py
 ├── helper-data
 │   ├── Python_Bottom_Up_Practical_Project_Specification.pdf
 │   ├── user_0_root_elements.json
@@ -55,16 +55,15 @@ Self-intuitive, I hope, structure.
 │   ├── users_0_columns_0_rows.csv
 │   ├── users_0_words.txt
 │   ├── users_27_words.txt
-│   ├── users_5_columns_10_rows.csv
-│   └── users_wront_format_words.json
+│   └── users_5_columns_10_rows.csv
 ├── main.py
 ├── README.md
 ├── settings
 │   ├── .env
 │   ├── requirements.txt
 │   └── settings.py
-└── templates
-    └── template.j2
+└── shell_ops
+    └── data_type.py
 ```
 
 
@@ -110,5 +109,5 @@ done
 #### Note
 
 - The project was written entirely in Linux, and I did not try to run it in either of the IDEs nor Git Bash. I think it should work regardless.
-- I removed the docstrings, as they only pollute the code. It is easy enough to see what the code is doing without the helper verbiage.
 
+  

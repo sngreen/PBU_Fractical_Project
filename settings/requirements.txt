@@ -1,7 +1,5 @@
 python-dotenv
 PyYaml
-jinja2
-python-magic
 # not sure about this one
 pathlib
 

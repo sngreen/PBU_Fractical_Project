@@ -13,11 +13,11 @@
 import sys
 import os
 import yaml # type: ignore
-import magic
 import logging
 from data_ops import csv_op, json_op, txt_op
 from datetime_ops import datetime_op
-from format_ops import jinja_format
+from shell_ops import data_type
+from format_ops import format_out
 from argparse import ArgumentParser, HelpFormatter
 from settings.settings import MENU_FILE, LOG_FILE, REPORT_FILE
 
@@ -42,7 +42,6 @@ FILE_FORMATS = {
 }
 
 class PBUFinalProject:
-    
     def __init__(self):
         self.get_menu()
         self.get_options()
@@ -53,10 +52,19 @@ class PBUFinalProject:
         self.write_file(data)
  
     def get_menu(self) -> None:
+        '''
+        Read in menu (yaml) file. The content is used for menu.
+        '''
+
         with open(MENU_FILE, 'r') as menu_input:
             setattr(self, 'menu_options', yaml.load(menu_input, Loader=yaml.FullLoader))
 
     def get_options(self) -> None:
+        '''
+        Display menu (with -h option)
+        Collect input parameters
+        '''
+        
         parser: argparse.ArgumentParser = ArgumentParser(
             prog = os.path.basename(__file__),
             usage = '{} [arg] | -h'.format(os.path.basename(__file__)),
@@ -73,13 +81,27 @@ class PBUFinalProject:
         self.args: argparse.Namespace = parser.parse_args()
 
     def verify_infile(self) -> str:
+        '''
+        Verify the infile is valid;
+            a. file exists
+            b. file of the processable format
+
+            if the input has no content:
+                write the evidence to the output file and exit
+            else:
+                return the format name of the file
+
+        Return:
+            Name of the format.
+        '''
+
         LOGGER.info('')
 
         if not os.path.isfile(self.args.file_name):
             LOGGER.debug(f'File "{self.args.file_name}" does not exist ..')
             sys.exit(1)
 
-        file_format: str = magic.from_file(self.args.file_name, mime = True)
+        file_format: str = data_type.get_file_type(self.args.file_name)
 
         if not file_format in FILE_FORMATS.keys():
             LOGGER.info(f'File "{self.args.file_name}" is of format "{file_format}", which is not supported by this application.')
@@ -92,6 +114,16 @@ class PBUFinalProject:
         return FILE_FORMATS.get(file_format)
 
     def get_data(self, file_format: str) -> dict:
+
+        '''
+        Select which file to call for extracting data from a given file.
+
+        Parameters:
+            file_format (str): Valid format of the file.
+        Returns:
+            processed analysis from the extracted data
+        '''
+
         LOGGER.info('')
 
         module: module = globals()[f'{file_format}_op']
@@ -100,6 +132,10 @@ class PBUFinalProject:
         return getattr(module, 'show_count')(data)
         
     def get_timestamp(self) -> str:
+        '''
+        Get timestamp (when this script ran)
+        '''
+
         LOGGER.info('')
 
         today: datetime.datetime = datetime_op.get_today()
@@ -107,6 +143,16 @@ class PBUFinalProject:
         return datetime_op.datetime_str(today)
     
     def add_data(self, data: dict) -> dict:
+        '''
+        Add additional information to the collected from a file analysis
+
+        Parameters:
+            data (dict): processed analysis from the extracted data
+
+        Returns:
+            data (dict): full data needed for further formatting
+        '''
+
         LOGGER.info('')
 
         additional_info: dict = {
@@ -114,15 +160,22 @@ class PBUFinalProject:
             'timestamp': self.get_timestamp()
         }
         return {**data, **additional_info}
-        
+
     def format_data(self, data: dict) -> str:
-        LOGGER.info('')
+        '''
+        Formatted output from the auxiliary package
+        '''
 
-        return jinja_format.render_template(
-            os.path.join(os.getcwd(),'templates', 'template.j2'),
-            data=data )
-
+        return format_out.format_output(data)
+    
     def write_file(self, data: str) -> None:
+        '''
+        Write data to a file
+
+        Parameters:
+            data (str): formatted clear text data
+        '''
+
         fname: str = REPORT_FILE.replace('users', self.args.file_name.split(os.path.sep)[-1])
         with open(fname, 'w') as outfile:
             outfile.write(data)
