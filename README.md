@@ -109,5 +109,6 @@ done
 
 #### Note
 
-The project was written entirely in Linux, and I did not try to run it in either of the IDEs nor Git Bash. I think it should work regardless.
+- The project was written entirely in Linux, and I did not try to run it in either of the IDEs nor Git Bash. I think it should work regardless.
+- I removed the docstrings, as they only pollute the code. It is easy enough to see what the code is doing without the helper verbiage.
 
